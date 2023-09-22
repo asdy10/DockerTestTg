@@ -24,12 +24,4 @@ log.propagate = False
 log.addHandler(db_handler)
 engine = create_engine(DATABASE_URL, max_overflow=-1)
 Session = sessionmaker(engine, autoflush=True, expire_on_commit=False)
-
-
-def create_clear_db():
-    #Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
-
-
-if __name__ == '__main__':
-    create_clear_db()
+Base.metadata.create_all(engine)

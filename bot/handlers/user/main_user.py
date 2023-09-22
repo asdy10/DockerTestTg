@@ -6,7 +6,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, ReplyKeyb
     InlineKeyboardButton, InputMediaPhoto, ContentType, InputTextMessageContent
 
 from db.db_connect import Session
-from queries import DBUser
+from db.queries import DBUser
 from loader import dp, bot
 from filters import IsAdmin, IsUser
 from markup_text import markups, texts
