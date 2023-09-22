@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+
+    telegram_bot_docker_tmpl:
+        container_name: docker_bot
+        build: .
+
+        ports:
+            - "443:443"
+
+        restart: on-failure
