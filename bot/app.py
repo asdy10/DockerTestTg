@@ -16,7 +16,7 @@ from loader import dp, bot
 import filters
 import logging
 
-from scheduler import add_jobs, task_update_db_send_notices_new_updated, task_update_table_send_notices_by_calendar
+#from scheduler import add_jobs, task_update_db_send_notices_new_updated, task_update_table_send_notices_by_calendar
 
 filters.setup(dp)
 

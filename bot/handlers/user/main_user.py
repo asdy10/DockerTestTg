@@ -5,8 +5,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, \
     InlineKeyboardButton, InputMediaPhoto, ContentType, InputTextMessageContent
 
-from db.db_connect import Session
-from db.queries import DBUser
+# from db.db_connect import Session
+# from db.queries import DBUser
 from loader import dp, bot
 from filters import IsAdmin, IsUser
 from markup_text import markups, texts
