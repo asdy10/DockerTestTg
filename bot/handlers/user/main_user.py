@@ -5,8 +5,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, \
     InlineKeyboardButton, InputMediaPhoto, ContentType, InputTextMessageContent
 
-# from db.db_connect import Session
-# from db.queries import DBUser
+from db_connect import Session
+from queries import DBUser
 from loader import dp, bot
 from filters import IsAdmin, IsUser
 from markup_text import markups, texts
@@ -19,15 +19,15 @@ from utils.wb_api.official_api import get_cards
 async def user_menu(message: Message, state: FSMContext):
     await state.finish()
     print(message)
-    # with Session.begin() as session:
-    #     user_id = message.from_user.id
-    #     user = DBUser.get(session, user_id)
-    #     if not user:
-    #         DBUser.add(session, {'user_id': user_id, 'username': message.from_user.username})
-    #         user = DBUser.get(session, user_id)
-    #     user = json.loads(str(user))
-    # async with state.proxy() as data:
-    #     data['user'] = user
+    with Session.begin() as session:
+        user_id = message.from_user.id
+        user = DBUser.get(session, user_id)
+        if not user:
+            DBUser.add(session, {'user_id': user_id, 'username': message.from_user.username})
+            user = DBUser.get(session, user_id)
+        user = json.loads(str(user))
+    async with state.proxy() as data:
+        data['user'] = user
     await message.answer(texts.start_text, reply_markup=markups.notice_markup(), disable_web_page_preview=True)
 
 
@@ -35,9 +35,9 @@ async def user_menu(message: Message, state: FSMContext):
 async def user_menu(message: Message, state: FSMContext):
     await state.finish()
     print(message)
-    # with Session.begin() as session:
-    #     user_id = message.from_user.id
-    #     DBUser.remove(session, user_id)
+    with Session.begin() as session:
+        user_id = message.from_user.id
+        DBUser.remove(session, user_id)
     await message.answer('Удален')
 
 
