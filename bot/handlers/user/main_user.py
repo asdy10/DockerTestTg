@@ -23,12 +23,14 @@ async def user_menu(message: Message, state: FSMContext):
         user_id = message.from_user.id
         user = DBUser.get(session, user_id)
         if not user:
+            await message.answer('Создаю юзера')
             DBUser.add(session, {'user_id': user_id, 'username': message.from_user.username})
             user = DBUser.get(session, user_id)
+        else:
+            await message.answer('Юзер существует')
         user = json.loads(str(user))
     async with state.proxy() as data:
         data['user'] = user
-    await message.answer('Hello')
     await message.answer(texts.start_text, reply_markup=markups.notice_markup(), disable_web_page_preview=True)
 
 
