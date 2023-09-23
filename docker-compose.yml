@@ -22,3 +22,5 @@ services:
     volumes:
       - docker_testdb-data:/var/lib/postgresql/data
 
+volumes:
+  docker_testdb-data:
