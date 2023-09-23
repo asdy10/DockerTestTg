@@ -19,4 +19,6 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydatabase
+    volumes:
+      - docker_testdb-data:/var/lib/postgresql/data
 
