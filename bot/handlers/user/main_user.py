@@ -28,6 +28,7 @@ async def user_menu(message: Message, state: FSMContext):
         user = json.loads(str(user))
     async with state.proxy() as data:
         data['user'] = user
+    await message.answer('Hello')
     await message.answer(texts.start_text, reply_markup=markups.notice_markup(), disable_web_page_preview=True)
 
 
