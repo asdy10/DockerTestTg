@@ -3,3 +3,4 @@ aiogram==2.25.1
 APScheduler
 psycopg2
 requests
+python-dotenv
