@@ -9,10 +9,12 @@ from aiogram import Bot
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from db.db_buffer import db_buffer
-from db.db_connect import Session
-from db.queries import DBUser, DBProductionTask, DBMove, DBSupply, DBPurchaseOrder
-from markup_text import texts, markups
+from bot.healthcheck import health_update
+
+#from db.db_buffer import db_buffer
+#from db.db_connect import Session
+#from db.queries import DBUser, DBProductionTask, DBMove, DBSupply, DBPurchaseOrder
+#from markup_text import texts, markups
 
 scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
 
@@ -182,9 +184,32 @@ async def send_notices_by_calendar(bot: Bot, calendar):
                         pass
 
 
+async def task_test():
+    print('start')
+    loop = asyncio.get_event_loop()
+    now = loop.time()
+    try:
+        async with asyncio.timeout(5):
+            print('start2')
+            await test_def()
+    except TimeoutError:
+        print('wtf')
+
+
+async def test_def():
+    print('start3')
+    t = random.randint(1, 15)
+    print('time', t)
+    for i in range(t):
+        print('hello', i)
+        time.sleep(1)
+    time.sleep(100)
+    health_update()
+
+
 def add_jobs(bot):
-    scheduler.add_job(task_update_db_send_notices_new_updated, "interval", seconds=600, args=[bot], misfire_grace_time=None, coalesce=True)
+    scheduler.add_job(test_def, "interval", seconds=10, args=[], misfire_grace_time=None, coalesce=True)
     #scheduler.add_job(task_send_questions, "interval", seconds=600, args=[bot], misfire_grace_time=None, coalesce=True)
-    scheduler.add_job(task_update_table_send_notices_by_calendar, 'cron', hour=12, args=[bot])
+    #scheduler.add_job(task_update_table_send_notices_by_calendar, 'cron', hour=12, args=[bot])
     return scheduler
 

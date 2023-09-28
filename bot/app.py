@@ -1,22 +1,22 @@
 import asyncio
-import os
 import threading
-import time
 
 from aiogram.utils.exceptions import ChatNotFound
 
-import handlers
+#import handlers
 from aiogram import executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, BotCommand, BotCommandScopeChat, ContentType, \
     Message
 
-from data import config
+from bot.healthcheck import health_update, health_check
+from bot.scheduler import add_jobs
 from data.config import ADMINS
 from loader import dp, bot
 import filters
 import logging
 
-#from scheduler import add_jobs, task_update_db_send_notices_new_updated, task_update_table_send_notices_by_calendar
+from aiogram.utils.executor import start_webhook
+
 
 filters.setup(dp)
 
@@ -40,21 +40,17 @@ async def set_commands(dp):
             logging.error(f'Установка команд для администратора {admin_id}: {er}')
 
 
-@dp.message_handler(content_types=ContentType.PHOTO)
-async def process_review_photo(message: Message):
-    print('wtf')
-    fileID = message.photo[-1].file_id
-    print(message.caption)
-    print(fileID)
-
-
 async def on_startup(dp):
-    logging.basicConfig(level=logging.INFO)  # , filename='logs.txt'
+    logging.basicConfig(level=logging.INFO)#, filename='logs.txt'
     logging.info('#####START#####')
     await bot.delete_webhook(drop_pending_updates=True)
+    # await bot.set_webhook(config.WEBHOOK_URL)
     await set_commands(dp)
-    #await asyncio.create_task(task_update_db_send_notices_new_updated(bot))
-    # await asyncio.create_task(task_update_table_send_notices_by_calendar(bot))
+    scheduler = add_jobs(bot)
+    scheduler.start()
+    health_update()
+   # await asyncio.create_task(health_check(loop))
+    threading.Thread(target=health_check, args=()).start()
     print('run completed')
 
 
@@ -66,5 +62,11 @@ async def on_shutdown():
     logging.warning("Bot down")
 
 
+@dp.message_handler(commands='start', state='*')
+async def user_menu(message: Message):
+    await message.answer('hello')
+
+
 if __name__ == '__main__':
+    loop=asyncio.get_event_loop()
     executor.start_polling(dp, on_startup=on_startup, skip_updates=True, timeout=250, relax=0.25)
