@@ -9,7 +9,7 @@ from aiogram import Bot
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, InputMediaPhoto
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from bot.healthcheck import health_update
+from healthcheck import health_update
 
 #from db.db_buffer import db_buffer
 #from db.db_connect import Session
