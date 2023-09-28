@@ -1,4 +1,5 @@
 import asyncio
+import sys
 import threading
 
 from aiogram.utils.exceptions import ChatNotFound
@@ -68,5 +69,7 @@ async def user_menu(message: Message):
 
 
 if __name__ == '__main__':
-    loop=asyncio.get_event_loop()
-    executor.start_polling(dp, on_startup=on_startup, skip_updates=True, timeout=250, relax=0.25)
+    try:
+        executor.start_polling(dp, on_startup=on_startup, skip_updates=True, timeout=250, relax=0.25)
+    except:
+        sys.exit(1)
