@@ -8,8 +8,8 @@ from aiogram import executor, types
 from aiogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, BotCommand, BotCommandScopeChat, ContentType, \
     Message
 
-from bot.healthcheck import health_update, health_check
-from bot.scheduler import add_jobs
+from healthcheck import health_update, health_check
+from scheduler import add_jobs
 from data.config import ADMINS
 from loader import dp, bot
 import filters

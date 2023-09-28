@@ -7,7 +7,7 @@ services:
     container_name: docker_bot
     build: ./bot
 
-    restart: on-failure
+    restart: always
     environment:
       BOT_TOKEN: "6102261529:AAGZPmItrh8oXrdaMO58xCeXwXc4qCX-FYc"
       DATABASE_URL: "postgresql+psycopg2://postgres:password@db:5432/mydatabase"
